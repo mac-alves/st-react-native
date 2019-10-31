@@ -10,13 +10,16 @@ export default class Pessoal extends Component {
     constructor(props){
         super(props)
         this.state = {
-            dia:0,
-            mes:0,
-            meses:[
-                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto',
-                'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-            ],
-            ano:60
+            date:{
+                dia:0,
+                mes:0,
+                meses:[
+                    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto',
+                    'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+                ],
+                ano:60,
+            },
+            sexo:0
         };
 
         this.geraDias = this.geraDias.bind(this);
@@ -45,7 +48,7 @@ export default class Pessoal extends Component {
             return <Picker.Item key={k} value={k} label={v} />;
         });
 
-        let mesesItem = this.state.meses.map((v, k)=>{
+        let mesesItem = this.state.date.meses.map((v, k)=>{
             return <Picker.Item key={k} value={k} label={v} />;
         });
 
@@ -63,19 +66,28 @@ export default class Pessoal extends Component {
                 <View style={styles.box}>
                     <Text style={styles.title}>Data de Nascimento</Text>
                     <View style={styles.data}>
-                        <Picker style={styles.camp} selectedValue={this.state.dia} onValueChange={(itemValue, itemIndex)=>this.setState({dia:itemValue})} >
+                        <Picker style={styles.campData} selectedValue={this.state.date.dia} onValueChange={(itemValue, itemIndex)=>this.setState({dia:itemValue})} >
                             { diasItem }
                         </Picker>
                         
-                        <Picker style={styles.camp} selectedValue={this.state.mes} onValueChange={(itemValue, itemIndex)=>this.setState({mes:itemValue})}  >
+                        <Picker style={styles.campData} selectedValue={this.state.date.mes} onValueChange={(itemValue, itemIndex)=>this.setState({mes:itemValue})}  >
                             { mesesItem }
                         </Picker>
                         
-                        <Picker style={styles.camp} selectedValue={this.state.ano} onValueChange={(itemValue, itemIndex)=>this.setState({ano:itemValue})} >
+                        <Picker style={styles.campData} selectedValue={this.state.date.ano} onValueChange={(itemValue, itemIndex)=>this.setState({ano:itemValue})} >
                             { anoItem }
                         </Picker>
                     </View>
                 </View>
+
+                <View style={styles.box}>
+                    <Text style={styles.title}>Sexo</Text>
+                    <Picker style={styles.campSexo} selectedValue={this.state.sexo} onValueChange={(itemValue, itemIndex)=>this.setState({sexo:itemValue})} >
+                        <Picker.Item key={0} value="0" label="Maculino" />
+                        <Picker.Item key={1} value="1" label="Feminino" />
+                    </Picker>
+                </View>
+
                 <Button title="Login" onPress={()=>this.props.navigation.navigate('Financeiro')} />
             </View>
         );
@@ -108,8 +120,11 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center'
     },
-    camp:{
+    campData:{
         width:120
+    },
+    campSexo:{
+        width:170
     }
 });
 
