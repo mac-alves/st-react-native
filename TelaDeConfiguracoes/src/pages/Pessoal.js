@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { View, Button, StyleSheet, TextInput, Text, Picker } from 'react-native';
+import { View, Button, StyleSheet, TextInput, Text, Picker, Switch } from 'react-native';
+import Slider from '@react-native-community/slider';
+
+import Buttonn from '../components/Buttonn';
 
 export default class Pessoal extends Component {
   
@@ -10,16 +13,19 @@ export default class Pessoal extends Component {
     constructor(props){
         super(props)
         this.state = {
-            date:{
-                dia:0,
-                mes:0,
-                meses:[
-                    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto',
-                    'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-                ],
-                ano:60,
-            },
-            sexo:0
+            nome:"",
+            dia:0,
+            mes:0,
+            ano:60,
+            sexo:0,
+            altura:1.6,
+            peso:40.0,
+            doador:false,
+
+            meses:[
+                'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto',
+                'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+            ]            
         };
 
         this.geraDias = this.geraDias.bind(this);
@@ -48,7 +54,7 @@ export default class Pessoal extends Component {
             return <Picker.Item key={k} value={k} label={v} />;
         });
 
-        let mesesItem = this.state.date.meses.map((v, k)=>{
+        let mesesItem = this.state.meses.map((v, k)=>{
             return <Picker.Item key={k} value={k} label={v} />;
         });
 
@@ -58,29 +64,29 @@ export default class Pessoal extends Component {
 
         return(
             <View style={styles.container} >
-                <View style={styles.box}>
+                <View style={[styles.box, styles.name]}>
                     <Text style={styles.title}>Nome</Text>
-                    <TextInput style={styles.input} />
+                    <TextInput style={styles.input} onChangeText={(t)=>this.setState({nome:t})} />
                 </View>
 
-                <View style={styles.box}>
+                <View style={[styles.box, styles.date]}>
                     <Text style={styles.title}>Data de Nascimento</Text>
                     <View style={styles.data}>
-                        <Picker style={styles.campData} selectedValue={this.state.date.dia} onValueChange={(itemValue, itemIndex)=>this.setState({dia:itemValue})} >
+                        <Picker style={styles.campData} selectedValue={this.state.dia} onValueChange={(itemValue, itemIndex)=>this.setState({dia:itemValue})} >
                             { diasItem }
                         </Picker>
                         
-                        <Picker style={styles.campData} selectedValue={this.state.date.mes} onValueChange={(itemValue, itemIndex)=>this.setState({mes:itemValue})}  >
+                        <Picker style={styles.campData} selectedValue={this.state.mes} onValueChange={(itemValue, itemIndex)=>this.setState({mes:itemValue})}  >
                             { mesesItem }
                         </Picker>
                         
-                        <Picker style={styles.campData} selectedValue={this.state.date.ano} onValueChange={(itemValue, itemIndex)=>this.setState({ano:itemValue})} >
+                        <Picker style={styles.campData} selectedValue={this.state.ano} onValueChange={(itemValue, itemIndex)=>this.setState({ano:itemValue})} >
                             { anoItem }
                         </Picker>
                     </View>
                 </View>
 
-                <View style={styles.box}>
+                <View style={[styles.box, styles.sexo]}>
                     <Text style={styles.title}>Sexo</Text>
                     <Picker style={styles.campSexo} selectedValue={this.state.sexo} onValueChange={(itemValue, itemIndex)=>this.setState({sexo:itemValue})} >
                         <Picker.Item key={0} value="0" label="Maculino" />
@@ -88,7 +94,24 @@ export default class Pessoal extends Component {
                     </Picker>
                 </View>
 
-                <Button title="Login" onPress={()=>this.props.navigation.navigate('Financeiro')} />
+                <View style={[styles.box, styles.altura]}>
+                    <Text style={styles.title}>Altura: {this.state.altura.toFixed(2)}</Text>
+                    <Slider style={styles.campAltura} value={this.state.altura} minimumValue={1} maximumValue={2.3} onValueChange={(v)=>this.setState({altura:v})} />
+                </View>
+
+                <View style={[styles.box, styles.peso]}>
+                    <Text style={styles.title}>Peso: {this.state.peso.toFixed(2)}</Text>
+                    <Slider style={styles.campPeso} value={this.state.peso} minimumValue={10} maximumValue={160} onValueChange={(v)=>this.setState({peso:v})} />
+                </View>
+
+                <View style={[styles.box, styles.doador]}>
+                    <Text style={styles.title}>Doador de Orgãos</Text>
+                    <Switch value={this.state.doador} onValueChange={(v)=>this.setState({doador:v})} />
+                </View>
+
+                <View style={styles.button} >
+                    <Buttonn title="Enviar" />
+                </View>
             </View>
         );
     }
@@ -98,22 +121,31 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         alignItems:'center',
+        justifyContent:'flex-start',
         paddingTop:20
     },
     box:{
-        margin:10
+        flex:1,
+        margin:6,
+        width:380
+    },
+    name:{
+        flex:null
     },
     title:{
         fontSize:18,
         color:"#999",
-        width:380
+        textAlignVertical:'center'
     },
     input:{
-        width:380,
+        flex:null,
         height:40,
         borderBottomWidth:1,
         borderBottomColor:"#999",
         paddingLeft:10
+    },
+    date:{
+        flex:null
     },
     data:{
         flexDirection:'row',
@@ -123,17 +155,42 @@ const styles = StyleSheet.create({
     campData:{
         width:120
     },
+    sexo:{
+        flex:null,
+        justifyContent:'space-between',
+        flexDirection:'row'
+    },
     campSexo:{
         width:170
+    },
+    altura:{
+        flex:null
+    },
+    peso:{
+        flex:null
+    },
+    campAltura:{
+        height:50
+    },
+    campPeso:{
+        height:50
+    },
+    doador:{
+        flex:null,
+        flexDirection:'row',
+        justifyContent:'space-between'
+    }, 
+    button:{
+        marginTop:30
     }
 });
 
 /*
 dados pessois
-  nome textInput
-  data nascimento piker
-  sexo piker
-  altura slider 1m a 3m 
-  Peso slider 10kg a 300kd
-  doador de orgão Switch
+  nome textInput V
+  data nascimento piker V
+  sexo piker V
+  altura slider 1m a 3m V
+  Peso slider 10kg a 300kd V
+  doador de orgão Switch 
 */
