@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Button, StyleSheet, TextInput, Text, Picker, Switch } from 'react-native';
+import { View, StyleSheet, TextInput, Text, Picker, Switch, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
+import LinearGradient from 'react-native-linear-gradient';
 
-import Buttonn from '../components/Buttonn';
+import { Button } from 'react-native-elements';
 
 export default class Pessoal extends Component {
   
@@ -110,7 +111,16 @@ export default class Pessoal extends Component {
                 </View>
 
                 <View style={styles.button} >
-                    <Buttonn title="Enviar" />
+                    <Button ViewComponent={LinearGradient} // Don't forget this!
+                        linearGradientProps={{
+                            colors: ['#18a15e', '#0c8248'],
+                            start: { x: 0, y: 0.5 },
+                            end: { x: 1, y: 0.5 },
+                        }}
+                        title="Enviar"
+                        onPress={()=>this.props.navigation.navigate('Financeiro')}
+                        buttonStyle={styles.button}
+                    />
                 </View>
             </View>
         );
@@ -181,16 +191,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between'
     }, 
     button:{
-        marginTop:30
+        marginTop:20,
+        width:380
     }
 });
-
-/*
-dados pessois
-  nome textInput V
-  data nascimento piker V
-  sexo piker V
-  altura slider 1m a 3m V
-  Peso slider 10kg a 300kd V
-  doador de orgão Switch 
-*/

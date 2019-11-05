@@ -30,7 +30,7 @@ export default class Buttonn extends Component {
     render () {
         return(
             <LinearGradient style={[this.styles.geral, this.styles.botao]} colors={['#2cb874', '#18a15e', '#0c8248']} >
-                <TouchableOpacity style={this.styles.botao} >
+                <TouchableOpacity style={this.styles.botao} onPress={() => {this.props.navigation.navigate('Financeiro')}} >
                     <View style={this.styles.botaoArea} >
                         <Text style={this.styles.text} >
                             {this.props.title}
