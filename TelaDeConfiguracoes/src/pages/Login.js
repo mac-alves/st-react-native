@@ -10,7 +10,7 @@ export default class Login extends Component {
     render() {
         return(
             <View style={styles.container} >
-                <Button title="Login" onPress={()=>this.props.navigation.navigate('Pessoal')} />
+                <Button title="Login" onPress={()=>this.props.navigation.navigate('Home')} />
             </View>
         );
     }
