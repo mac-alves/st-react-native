@@ -11,7 +11,27 @@ export default class Home extends Component {
 
     constructor(props){
         super(props);
-        this.state = {};
+        this.state = {
+            views:[
+                [
+                    [
+                        {key:1, title:'Home', icon:'home', navi:'Pessoal'}, 
+                        {key:2, title:'Biblioteca', icon:'book', navi:'Financeiro'}, 
+                        {key:3,title:'Santander', icon:'bank', navi:'Home'}, 
+                    ],
+                    [
+                        {key:4, title:'Documentos', icon:'print', navi:'Login'},
+                        {key:5, title:'Serviços', icon:'print', navi:'Login'},
+                        {key:6, title:'', icon:'', navi:'Login'},
+                    ],
+                    [
+                        {key:4, title:'', icon:'', navi:'Login'},
+                        {key:5, title:'', icon:'', navi:'Login'},
+                        {key:6, title:'', icon:'', navi:'Login'},
+                    ]                
+                ]
+            ]
+        };
     }
 
     render () {
@@ -22,61 +42,26 @@ export default class Home extends Component {
                 </View>
                 
                     <View style={styles.menu} >
-                        <ScrollView horizontal={true} style={styles.scroll} showsHorizontalScrollIndicator={false} pagingEnabled={true} >
-                            <View style={styles.view} >
-                                <View style={styles.menuRow} >
-                                    <View style={styles.campMenu} >
-                                        <Avatar rounded size="large" icon={{name: 'home', color: 'rgba(13, 75, 129, 1.0)', type: 'font-awesome'}} overlayContainerStyle={styles.iconMenu} onPress={()=>this.props.navigation.navigate('Pessoal')} />
-                                        <Text style={styles.titleMenu} >Home</Text>
-                                    </View>
-                                    <View style={styles.campMenu} >
-                                        <Avatar rounded size="large" icon={{name: 'book', color: 'rgba(13, 75, 129, 1.0)', type: 'font-awesome'}} overlayContainerStyle={styles.iconMenu} onPress={()=>this.props.navigation.navigate('Pessoal')} />
-                                        <Text style={styles.titleMenu} >Biblioteca</Text>
-                                    </View>
-                                    <View style={styles.campMenu} >
-                                        <Avatar rounded size="large" icon={{name: 'bank', color: 'rgba(13, 75, 129, 1.0)', type: 'font-awesome'}} overlayContainerStyle={styles.iconMenu} onPress={()=>this.props.navigation.navigate('Pessoal')} />
-                                        <Text style={styles.titleMenu} >Santander</Text>
-                                    </View>
-                                </View>
-                                <View style={styles.menuRow} >
-                                    <Avatar rounded size="large" icon={{name: 'bank', type: 'font-awesome'}}  onPress={()=>this.props.navigation.navigate('Pessoal')} />
-                                    <Avatar rounded size="large" icon={{name: 'book', type: 'font-awesome'}} onPress={() => console.log("Works!")} />
-                                    <Avatar rounded size="large" icon={{name: 'home', type: 'font-awesome'}} onPress={() => console.log("Works!")} />
-                                </View>
-                                <View style={styles.menuRow} >
-                                    <Avatar rounded size="large" icon={{name: 'home', type: 'font-awesome'}}  onPress={()=>this.props.navigation.navigate('Pessoal')} />
-                                    <Avatar rounded size="large" icon={{name: 'book', type: 'font-awesome'}} onPress={() => console.log("Works!")} />
-                                    <Avatar rounded size="large" icon={{name: 'home', type: 'font-awesome'}} onPress={() => console.log("Works!")} />
-                                </View>
-                            </View>
-                            <View style={styles.view} >
-                                <View style={styles.menuRow} >
-                                    <View style={styles.campMenu} >
-                                        <Avatar rounded size="large" icon={{name: 'home', color: 'rgba(13, 75, 129, 1.0)', type: 'font-awesome'}} overlayContainerStyle={styles.iconMenu} onPress={()=>this.props.navigation.navigate('Pessoal')} />
-                                        <Text style={styles.titleMenu} >Home</Text>
-                                    </View>
-                                    <View style={styles.campMenu} >
-                                        <Avatar rounded size="large" icon={{name: 'book', color: 'rgba(13, 75, 129, 1.0)', type: 'font-awesome'}} overlayContainerStyle={styles.iconMenu} onPress={()=>this.props.navigation.navigate('Pessoal')} />
-                                        <Text style={styles.titleMenu} >Biblioteca</Text>
-                                    </View>
-                                    <View style={styles.campMenu} >
-                                        <Avatar rounded size="large" icon={{name: 'bank', color: 'rgba(13, 75, 129, 1.0)', type: 'font-awesome'}} overlayContainerStyle={styles.iconMenu} onPress={()=>this.props.navigation.navigate('Pessoal')} />
-                                        <Text style={styles.titleMenu} >Santander</Text>
-                                    </View>
-                                </View>
-                                <View style={styles.menuRow} >
-                                    <Avatar rounded size="large" icon={{name: 'bank', type: 'font-awesome'}}  onPress={()=>this.props.navigation.navigate('Pessoal')} />
-                                    <Avatar rounded size="large" icon={{name: 'book', type: 'font-awesome'}} onPress={() => console.log("Works!")} />
-                                    <Avatar rounded size="large" icon={{name: 'home', type: 'font-awesome'}} onPress={() => console.log("Works!")} />
-                                </View>
-                                <View style={styles.menuRow} >
-                                    <Avatar rounded size="large" icon={{name: 'home', type: 'font-awesome'}}  onPress={()=>this.props.navigation.navigate('Pessoal')} />
-                                    <Avatar rounded size="large" icon={{name: 'book', type: 'font-awesome'}} onPress={() => console.log("Works!")} />
-                                    <Avatar rounded size="large" icon={{name: 'home', type: 'font-awesome'}} onPress={() => console.log("Works!")} />
-                                </View>
-                            </View>
-                            
-                        </ScrollView>
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} pagingEnabled={true} >
+                            {this.state.views.map((abas, key)=>{
+                                return (<View key={key} style={styles.view} >
+                                            {abas.map((row, key)=>{
+
+                                                return (<View key={key} style={styles.menuRow} >
+                                                            {row.map((item, key) => {
+                                                                return( <View key={item.key} style={styles.campMenu} >
+                                                                            <Avatar rounded size="large" icon={{name: item.icon, color: 'rgba(13, 75, 129, 1.0)', type: 'font-awesome'}} overlayContainerStyle={styles.iconMenu} onPress={()=>this.props.navigation.navigate(item.navi)} />
+                                                                            <Text style={styles.titleMenu} >{item.title}</Text>
+                                                                        </View>
+                                                                    );
+                                                            })}
+                                                        </View>
+                                                        );
+                                            })}
+                                        </View>
+                                        );
+                            })}
+                        </ScrollView>             
                     </View>
             </View>
         );
@@ -89,13 +74,9 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         
     },
-    scroll:{
-    },
     view:{
         flex:1,
-        paddingTop:40,
-        height:400,
-        width:400
+        justifyContent:'center'
     },  
     logo:{
         flex:1,
@@ -117,8 +98,10 @@ const styles = StyleSheet.create({
     menuRow:{
         flexDirection:'row',
         height:100,
+        width:400,
         justifyContent:'space-around',
-        alignItems:'center'
+        alignItems:'center',
+        margin:5
     },
     iconMenu:{
         backgroundColor:"rgba(255, 255, 255, 1.0)",
@@ -132,3 +115,7 @@ const styles = StyleSheet.create({
         fontSize:14
     }
 });
+
+/**
+ * <ScrollView horizontal={true} style={styles.scroll} showsHorizontalScrollIndicator={false} pagingEnabled={true} >
+ */
